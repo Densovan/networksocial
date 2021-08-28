@@ -1,12 +1,16 @@
 const express = require("express");
 const connectDB = require("./configs/db");
+const bodyParser = require("body-parser");
 const color = require("colors");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
+//=================>MiddleWare<==================
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//=============>api<==================
+app.use("/api/user", require("./routes/user"));
 
 //=================>ConnectDB<===============
 connectDB();
