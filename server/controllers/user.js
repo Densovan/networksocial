@@ -76,16 +76,18 @@ exports.login = async (req, res) => {
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
         const payload = {
-          id: user.id,
-          name: user.name,
-          avatar: user.avatar,
+          user: {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+          },
         };
         // create jwt payload
         // Sign Token
-        jwt.sign(payload, secretOrkey, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, secretOrkey, { expiresIn: 36000 }, (err, token) => {
           res.json({
             success: true,
-            token: "Bearer " + token,
+            token: token,
           });
         });
       } else {
