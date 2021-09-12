@@ -1,5 +1,7 @@
 //Load validation
 const validatorProfileInput = require("../validators/profile.js");
+const validatorExperienceInput = require("../validators/experience");
+const validatorEducationInput = require("../validators/educaion");
 
 //Load Profile Model
 const Profile = require("../models/profile");
@@ -141,10 +143,111 @@ exports.all_profile = async (req, res) => {
     const profile = await Profile.find().populate("user", ["name", "avatar"]);
     if (!profile) {
       errors.noprofile = "There are no profile";
-      return res.status(404).json(errors);
+      return res.status(404).json({ msg: "There are no Profile" });
     }
     res.json(profile);
   } catch (error) {
     res.status(404).json({ msg: "There are no profile" });
+  }
+};
+
+//@route POST/api/profile/experience
+//@desc Add experience to profile
+//@access Private
+exports.add_experience = async (req, res) => {
+  const { errors, isValid } = validatorExperienceInput(req.body);
+  //check validator
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  const profile = await Profile.findOne({ user: req.user.id });
+
+  if (profile) {
+    const newExp = {
+      title: req.body.title,
+      company: req.body.company,
+      from: req.body.from,
+      location: req.body.location,
+      to: req.body.to,
+      current: req.body.current,
+      description: req.body.description,
+    };
+    //Add to exp array
+    profile.experience.unshift(newExp);
+    await profile.save();
+    res.json(profile);
+  }
+};
+
+//@route POST/api/profile/education
+//@desc Add aducation to profile
+//@access Private
+exports.add_education = async (req, res) => {
+  const { errors, isValid } = validatorEducationInput(req.body);
+  //check validator
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  const profile = await Profile.findOne({ user: req.user.id });
+
+  if (profile) {
+    const newEdu = {
+      school: req.body.school,
+      degree: req.body.degree,
+      fieldofstudy: req.body.fieldofstudy,
+      from: req.body.from,
+      to: req.body.to,
+      current: req.body.current,
+      description: req.body.description,
+    };
+    //Add to edu array
+    profile.education.unshift(newEdu);
+    await profile.save();
+    res.json(profile);
+  }
+};
+
+//@route DELETE/api/profile/experience
+//@desc DELETE experience to profile
+//@access Private
+exports.delete_experience = async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    foundProfile.experience = foundProfile.experience.filter(
+      (exp) => exp._id.toString() !== req.params.exp_id
+    );
+    await foundProfile.save();
+    return res.status(200).json(foundProfile);
+  } catch (error) {
+    res.status(404).json({ msg: "There is no profile for this user" });
+  }
+};
+
+//@route DELETE/api/profile/education
+//@desc DELETE education to profile
+//@access Private
+exports.delete_education = async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    foundProfile.education = foundProfile.education.filter(
+      (edu) => edu._id.toString() !== req.params.edu_id
+    );
+    await foundProfile.save();
+    return res.status(200).json(foundProfile);
+  } catch (error) {
+    res.status(404).json({ msg: "There is no profile for this user" });
+  }
+};
+
+//@route DELETE/api/profile
+//@desc DELETE user and profile
+//@access Private
+exports.delete_profile = async (req, res) => {
+  try {
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(404).json({ msg: "server errors" });
   }
 };

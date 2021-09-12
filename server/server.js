@@ -15,6 +15,7 @@ connectDB();
 //=============>api<==================
 app.use("/api/user", require("./routes/user"));
 app.use("/api/profile", require("./routes/profile"));
+app.use("/api/post", require("./routes/post"));
 
 //======>Passport Middleware<=============
 app.use(passport.initialize());
