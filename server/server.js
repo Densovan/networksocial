@@ -3,12 +3,14 @@ const connectDB = require("./configs/db");
 const bodyParser = require("body-parser");
 const color = require("colors");
 const passport = require("passport");
+const cors = require("cors");
 
 const app = express();
 
 //=================>MiddleWare<==================
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 //=================>ConnectDB<===============
 connectDB();

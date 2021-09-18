@@ -27,7 +27,7 @@ exports.currentUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(500).send(" Server Error");
+    res.status(500).json(errors);
   }
 };
 
@@ -53,40 +53,38 @@ exports.createProfile = (req, res) => {
   if (req.body.status) profileFields.status = req.body.status;
   if (req.body.githubusername)
     profileFields.githubusername = req.body.githubusername;
-  // Skills - Split into array
+  // Skills - Spilt into array
   if (typeof req.body.skills !== "undefined") {
     profileFields.skills = req.body.skills.split(",");
   }
+
   // Social
   profileFields.social = {};
-  if (req.body.youtube) profileFields.social.youtube = req.body.social.youtube;
-  if (req.body.twitter) profileFields.social.twitter = req.body.social.twitter;
-  if (req.body.facebook)
-    profileFields.social.facebook = req.body.social.facebook;
-  if (req.body.linkedin)
-    profileFields.social.linkedin = req.body.social.linkedin;
-  if (req.body.instagram)
-    profileFields.social.instagram = req.body.social.instagram;
+  if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
+  if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
+  if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
+  if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
+  if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
   Profile.findOne({ user: req.user.id }).then((profile) => {
     if (profile) {
-      //Update
+      // Update
       Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFields },
         { new: true }
       ).then((profile) => res.json(profile));
     } else {
-      //Create
+      // Create
 
-      //Check if handle exists
+      // Check if handle exists
       Profile.findOne({ handle: profileFields.handle }).then((profile) => {
         if (profile) {
           errors.handle = "That handle already exists";
-          res.status(400).json({ msg: "That handle already existss" });
+          res.status(400).json(errors);
         }
 
-        //Save profile
+        // Save Profile
         new Profile(profileFields).save().then((profile) => res.json(profile));
       });
     }

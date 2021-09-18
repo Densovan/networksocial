@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
   await User.findOne({ email }).then((user) => {
     if (user) {
       errors.email = "Email already Exist!";
-      return res.status(400).json({ msg: "Email already exist!" });
+      return res.status(400).json(errors);
     } else {
       const avatar = gravatar.url(email, { s: "200", r: "pg", d: "mm" });
       const newUser = new User({
@@ -88,11 +88,13 @@ exports.login = async (req, res) => {
           res.json({
             success: true,
             token: token,
+            name: user.name,
+            avatar: user.avatar,
           });
         });
       } else {
         errors.password = "Password incorrect";
-        return res.status(400).json({ errors });
+        return res.status(400).json(errors);
       }
     });
   });
