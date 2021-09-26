@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Footer from "./components/layouts/Footer";
 import Landing from "./components/layouts/Landing";
 import Navbar from "./components/layouts/Navbar";
@@ -14,6 +14,8 @@ import Dashboard from "./components/owner/dashboard";
 import Profile from "./components/owner/profileAction";
 import PrivateRoute from "./components/common/PrivateRoute";
 import CreateProfile from "./components/owner/createProfile";
+import EditProfile from "./components/owner/editProfile";
+import AddExperience from "./components/owner/addCredentails/addExperience";
 
 //Check for token
 if (localStorage.userToken) {
@@ -46,13 +48,29 @@ function App() {
         <div>
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute exact path="/profile" component={Profile} />
-          <PrivateRoute
-            exact
-            path="/create-profile"
-            component={CreateProfile}
-          />
+          <Switch>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/profile" component={Profile} />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/create-profile"
+              component={CreateProfile}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/add-experience"
+              component={AddExperience}
+            />
+          </Switch>
         </div>
         <Footer />
       </div>

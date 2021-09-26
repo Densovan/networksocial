@@ -5,12 +5,14 @@ import { registerReducer, loginReducer } from "./redux/reducer/authReducer";
 import {
   currenUserReducer,
   createProfileReducer,
+  addExperienceReducer,
 } from "./redux/reducer/profileReducer";
 const reducer = combineReducers({
   register: registerReducer,
   loginUser: loginReducer,
   currerntUser: currenUserReducer,
   createProfile: createProfileReducer,
+  addUserExperience: addExperienceReducer,
 });
 
 const tokenFromLocalstorage = localStorage.getItem("userToken")

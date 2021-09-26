@@ -4,11 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { createProfile } from "../../redux/actions/profileAction";
 import FormContainer from "../common/formContainer";
 import classnames from "classnames";
+import { PROFILE_CREATE_RESET } from "../../redux/constants/profileContant";
 
 const CreateProfile = ({ history }) => {
   const dispatch = useDispatch();
   const profileCreate = useSelector((state) => state.createProfile);
-  const { profile, error, loading, redirect } = profileCreate;
+  const { success, error, loading } = profileCreate;
+  //===========>get user profile api<===========
+  const userProfile = useSelector((state) => state.currerntUser);
+  const { loading: loadingProfile, error: errorProfile, profile } = userProfile;
 
   const [displaySocailInputs, setDisplaySocailInput] = useState(false);
   const [handle, setHandle] = useState("");
@@ -44,15 +48,22 @@ const CreateProfile = ({ history }) => {
       youtube,
     };
     dispatch(createProfile(newProfile));
-    // if (profile) {
-    //   history.push("/dashboard");
+    // if (newProfile) {
+    //   window.location.replace("/dashboard");
     // }
   };
   useEffect(() => {
+    if (success) {
+      dispatch({ type: PROFILE_CREATE_RESET });
+      history.push("/dashboard");
+    }
     if (error) {
       setError(error);
     }
-  }, [error]);
+    if (profile) {
+      history.push("/edit-profile");
+    }
+  }, [error, loading]);
 
   // Select options for status
   const options = [

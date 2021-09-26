@@ -12,7 +12,7 @@ import { Button } from "react-bootstrap";
 import store from "../../store";
 const Profile = ({ history }) => {
   // const [profile, setProfile] = useState({});
-  // const [name, setName] = useState("");
+  const [handle, sethandle] = useState("");
   const dispatch = useDispatch();
   //===========>get user profile api<===========
   const userProfile = useSelector((state) => state.currerntUser);
@@ -23,7 +23,9 @@ const Profile = ({ history }) => {
 
   useEffect(() => {
     dispatch(getCurrentUser());
-  }, [user, dispatch]);
+    // sethandle(profile.handle);
+    console.log(handle);
+  }, [user, dispatch, getCurrentUser]);
 
   //=========>delete accoutn<==========
   const onDeleteClick = () => {
@@ -38,11 +40,14 @@ const Profile = ({ history }) => {
   } else {
     // Check if logged in user has profile data
     if (profile) {
+      // console.log(profile.handle);
       dashboardContent = (
         <div>
           <p className="lead text-muted">
             Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
           </p>
+          <p>{profile.handle}</p>
+
           <ProfileAction />
           {/*TODO exp and edu*/}
           <div style={{ marginBottom: "60px" }}>

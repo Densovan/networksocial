@@ -12,11 +12,12 @@ import {
   DELETE_PROFILE_REQUEST,
   DELETE_PROFILE_SUCCESS,
   PROFILE_CREATE_RESET,
+  ADD_EXPERIENCE_REQUEST,
+  ADD_EXPERIENCE_SUCCESS,
+  ADD_EXPERIENCE_FAIL,
 } from "../constants/profileContant";
 import axios from "axios";
 import { logoutUser } from "../actions/authAction";
-import { push } from "react-router-redux";
-import store from "../../store";
 
 //=============>Get current user<=============
 export const getCurrentUser = () => async (dispatch, getState) => {
@@ -34,7 +35,7 @@ export const getCurrentUser = () => async (dispatch, getState) => {
         Authorization: `${user.token}`,
       },
     };
-    console.log("user", user.token);
+    // console.log("user", user.token);
     const { data } = await axios.get("/api/profile/me", config);
     dispatch({
       type: CURRENT_USER_SUCCESS,
@@ -43,53 +44,82 @@ export const getCurrentUser = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CURRENT_USER_FAIL,
-      // payload: error.response.data,
-      payload: {},
+      payload: error.response.data,
+      // payload: {},
     });
   }
 };
 
 //==============>Create Profile<=============
 
-export const createProfile =
-  (newProfile, history) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: PROFILE_CREATE_REQUEST,
-      });
-      const {
-        loginUser: { user },
-      } = getState();
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token}`,
-        },
-      };
-      // console.log("user", user.token);
-      const { data } = await axios.post(
-        "/api/profile/createuser",
-        newProfile,
-        config
-      );
-      dispatch({
-        type: PROFILE_CREATE_SUCCESS,
-        payload: data,
-      });
-      // dispatch(push("/dashboard"));
+// export const createProfile = (newProfile) => async (dispatch, getState) => {
+//   // const history = useHistory();
+//   const {
+//     loginUser: { user },
+//   } = getState();
+//   const config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `${user.token}`,
+//     },
+//   };
+//   axios
+//     .post("/api/profile/createuser", newProfile, config)
+//     .then((res) => {
+//       dispatch({
+//         type: PROFILE_CREATE_REQUEST,
+//       });
+//       dispatch({
+//         type: PROFILE_CREATE_SUCCESS,
+//         payload: res.data,
+//       });
+//     })
+//     // .then(() => history.push("/dashboard"))
+//     // .then(() => dispatch(push("/dashboard")))
+//     .catch((error) => {
+//       dispatch({
+//         type: PROFILE_CREATE_FAIL,
+//         payload: error.response.data,
+//       });
+//     });
+// };
 
-      // history.push("/dashboard");
-      // dispatch({
-      //   type: PROFILE_CREATE_RESET,
-      //   payload: {},
-      // });
-    } catch (error) {
-      dispatch({
-        type: PROFILE_CREATE_FAIL,
-        payload: error.response.data,
-      });
-    }
-  };
+export const createProfile = (newProfile) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PROFILE_CREATE_REQUEST,
+    });
+    const {
+      loginUser: { user },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${user.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      "/api/profile/createuser",
+      newProfile,
+      config
+    );
+    dispatch({
+      type: PROFILE_CREATE_SUCCESS,
+      payload: data,
+    });
+    // window.location.replace("/dashboard");
+    dispatch({
+      type: PROFILE_CREATE_RESET,
+      payload: {},
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_CREATE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
 
 //============>Delete Account<=============
 export const deleteAccount = () => async (dispatch, getState) => {
@@ -121,5 +151,37 @@ export const deleteAccount = () => async (dispatch, getState) => {
         error: error.response.data,
       });
     }
+  }
+};
+
+//========>add experience<========
+export const addExperience = (expData) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADD_EXPERIENCE_REQUEST,
+    });
+    const {
+      loginUser: { user },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${user.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      "/api/profile/experience",
+      expData,
+      config
+    );
+    dispatch({
+      type: ADD_EXPERIENCE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_EXPERIENCE_FAIL,
+      payload: error.response.data,
+    });
   }
 };
