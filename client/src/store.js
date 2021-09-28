@@ -6,6 +6,11 @@ import {
   currenUserReducer,
   createProfileReducer,
   addExperienceReducer,
+  addEducationReducer,
+  experienceDeleteReducer,
+  educationDeleteReducer,
+  getAllProfileUserReducer,
+  getProfileUserReducer,
 } from "./redux/reducer/profileReducer";
 const reducer = combineReducers({
   register: registerReducer,
@@ -13,6 +18,11 @@ const reducer = combineReducers({
   currerntUser: currenUserReducer,
   createProfile: createProfileReducer,
   addUserExperience: addExperienceReducer,
+  addUserEducation: addEducationReducer,
+  deleteExperience: experienceDeleteReducer,
+  deleteEducation: educationDeleteReducer,
+  allProfileUser: getAllProfileUserReducer,
+  profileUser: getProfileUserReducer,
 });
 
 const tokenFromLocalstorage = localStorage.getItem("userToken")

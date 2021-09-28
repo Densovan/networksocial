@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 // import PropTypes from "prop-types";
-import axios from "axios";
+// import axios from "axios";
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/actions/authAction";
 
-const Register = ({ location, history }) => {
+const Register = ({ history }) => {
   const dispatch = useDispatch();
   const User = useSelector((state) => state.loginUser);
   const { user } = User;
   const userRegister = useSelector((state) => state.register);
-  const { loading, error, reset_register, user_Register } = userRegister;
+  const { loading, error, user_Register } = userRegister;
   // const [state, setState] = useState({
   //   name: "",
   //   email: "",
@@ -54,7 +54,7 @@ const Register = ({ location, history }) => {
     //   .then((res) => console.log(res.data))
     //   .catch((err) => setState({ errors: err.response.data }));
   };
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  // const redirect = location.search ? location.search.split("=")[1] : "/";
   useEffect(() => {
     if (error) {
       setError(error);

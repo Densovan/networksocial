@@ -8,8 +8,10 @@ import {
 import { logoutUser } from "../../redux/actions/authAction";
 import Spinner from "../common/Spinner";
 import ProfileAction from "./profileAction";
+import Experience from "./experience";
 import { Button } from "react-bootstrap";
 import store from "../../store";
+import Education from "./education";
 const Profile = ({ history }) => {
   // const [profile, setProfile] = useState({});
   const [handle, sethandle] = useState("");
@@ -23,9 +25,7 @@ const Profile = ({ history }) => {
 
   useEffect(() => {
     dispatch(getCurrentUser());
-    // sethandle(profile.handle);
-    console.log(handle);
-  }, [user, dispatch, getCurrentUser]);
+  }, [user, dispatch, loading, getCurrentUser]);
 
   //=========>delete accoutn<==========
   const onDeleteClick = () => {
@@ -35,12 +35,12 @@ const Profile = ({ history }) => {
 
   let dashboardContent;
 
-  if (profile === null || loading) {
+  if (profile === null || profile === undefined || loading) {
     dashboardContent = <Spinner />;
   } else {
     // Check if logged in user has profile data
-    if (profile) {
-      // console.log(profile.handle);
+    if (profile && loading === false) {
+      console.log(profile.experience);
       dashboardContent = (
         <div>
           <p className="lead text-muted">
@@ -49,6 +49,8 @@ const Profile = ({ history }) => {
           <p>{profile.handle}</p>
 
           <ProfileAction />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
           {/*TODO exp and edu*/}
           <div style={{ marginBottom: "60px" }}>
             <Button className="btn btn-danger" onClick={onDeleteClick}>

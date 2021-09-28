@@ -10,12 +10,14 @@ import jwtDecode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import store from "./store";
 import { logoutUser } from "./redux/actions/authAction";
-import Dashboard from "./components/owner/dashboard";
-import Profile from "./components/owner/profileAction";
+import Dashboard from "./components/dashboard/dashboard";
+import Profile from "./components/profile/profile";
 import PrivateRoute from "./components/common/PrivateRoute";
-import CreateProfile from "./components/owner/createProfile";
-import EditProfile from "./components/owner/editProfile";
-import AddExperience from "./components/owner/addCredentails/addExperience";
+import CreateProfile from "./components/dashboard/createProfile";
+import EditProfile from "./components/dashboard/editProfile";
+import AddExperience from "./components/dashboard/addCredentails/addExperience";
+import AddEducation from "./components/dashboard/addCredentails/addEducation";
+import Profiles from "./components/profiles/profiles";
 
 //Check for token
 if (localStorage.userToken) {
@@ -48,11 +50,10 @@ function App() {
         <div>
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/profiles" component={Profiles} />
+          <Route exact path="/profile/:id" component={Profile} />
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          </Switch>
-          <Switch>
-            <PrivateRoute exact path="/profile" component={Profile} />
           </Switch>
           <Switch>
             <PrivateRoute
@@ -69,6 +70,13 @@ function App() {
               exact
               path="/add-experience"
               component={AddExperience}
+            />
+          </Switch>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/add-education"
+              component={AddEducation}
             />
           </Switch>
         </div>

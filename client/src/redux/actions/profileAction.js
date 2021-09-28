@@ -12,9 +12,30 @@ import {
   DELETE_PROFILE_REQUEST,
   DELETE_PROFILE_SUCCESS,
   PROFILE_CREATE_RESET,
+  //==========>Add experience <===========
   ADD_EXPERIENCE_REQUEST,
   ADD_EXPERIENCE_SUCCESS,
   ADD_EXPERIENCE_FAIL,
+  //================> Add Education<===============
+  ADD_EDUCATION_FAIL,
+  ADD_EDUCATION_REQUEST,
+  ADD_EDUCATION_SUCCESS,
+  //=========> Delete Experienc<=============
+  DELETE_EXPERIENCE_FAIL,
+  DELETE_EXPERIENCE_REQUEST,
+  DELETE_EXPERIENCE_SUCCESS,
+  //===============> Delete Education<===========
+  DELETE_EDUCATION_REQUEST,
+  DELETE_EDUCATION_SUCCESS,
+  DELETE_EDUCATION_FAIL,
+  //=============> GET all user profile <=========
+  GET_ALL_PROFILE_USERS_FAIL,
+  GET_ALL_PROFILE_USERS_REQUEST,
+  GET_ALL_PROFILE_USERS_SUCCESS,
+  //==============> Get user profile by Id <==============
+  GET_PROFILE_USER_FAIL,
+  GET_PROFILE_USER_SUCCESS,
+  GET_PROFILE_USER_REQUEST,
 } from "../constants/profileContant";
 import axios from "axios";
 import { logoutUser } from "../actions/authAction";
@@ -181,6 +202,149 @@ export const addExperience = (expData) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADD_EXPERIENCE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+//========>add education<========
+export const addEducation = (eduData) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADD_EDUCATION_REQUEST,
+    });
+    const {
+      loginUser: { user },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${user.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      "/api/profile/education",
+      eduData,
+      config
+    );
+    dispatch({
+      type: ADD_EDUCATION_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_EDUCATION_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+//============>Delete Experience<=============
+export const deleteExperience = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DELETE_EXPERIENCE_REQUEST,
+    });
+    const {
+      loginUser: { user },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${user.token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      `/api/profile/delete_experience/${id}`,
+      config
+    );
+    dispatch({
+      type: DELETE_EXPERIENCE_SUCCESS,
+    });
+    dispatch({
+      type: CURRENT_USER_SUCCESS,
+      payload: data,
+    });
+    //===========>logout user<=============
+    // localStorage.removeItem("userToken");
+  } catch (error) {
+    dispatch({
+      type: DELETE_EXPERIENCE_FAIL,
+      error: error.response.data,
+    });
+  }
+};
+
+//============>Delete Experience<=============
+export const deleteEducation = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DELETE_EDUCATION_REQUEST,
+    });
+    const {
+      loginUser: { user },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${user.token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      `/api/profile/delete_education/${id}`,
+      config
+    );
+    dispatch({
+      type: DELETE_EDUCATION_SUCCESS,
+    });
+    dispatch({
+      type: CURRENT_USER_SUCCESS,
+      payload: data,
+    });
+    //===========>logout user<=============
+    // localStorage.removeItem("userToken");
+  } catch (error) {
+    dispatch({
+      type: DELETE_EDUCATION_FAIL,
+      error: error.response.data,
+    });
+  }
+};
+
+//==================>Get all Profile user<============
+
+export const getAllUserProfile = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: GET_ALL_PROFILE_USERS_REQUEST,
+    });
+    const { data } = await axios.get("/api/profile/all");
+    dispatch({
+      type: GET_ALL_PROFILE_USERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_PROFILE_USERS_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+//==============>get user profile by Id<====================
+export const getUserProfile = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: GET_PROFILE_USER_REQUEST,
+    });
+    const { data } = await axios.get(`/api/profile/user/${id}`);
+    dispatch({
+      type: GET_PROFILE_USER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PROFILE_USER_FAIL,
       payload: error.response.data,
     });
   }

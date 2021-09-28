@@ -1,41 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import { addExperience } from "../../../redux/actions/profileAction";
-import Message from "../../alertMessage/Message";
+import { addEducation } from "../../../redux/actions/profileAction";
 import classnames from "classnames";
-import { ADD_EXPERIENCE_RESET } from "../../../redux/constants/profileContant";
+import { ADD_EDUCATION_RESET } from "../../../redux/constants/profileContant";
 import toast, { Toaster } from "react-hot-toast";
-const AddExperience = ({ history }) => {
+const AddEducation = ({ history }) => {
   const dispatch = useDispatch();
-  const addExperienceuser = useSelector((state) => state.addUserExperience);
-  const { success, error, loading } = addExperienceuser;
+  const addEducationuser = useSelector((state) => state.addUserEducation);
+  const { success, error, loading } = addEducationuser;
   const [formData, setFormData] = useState({
-    company: "",
-    title: "",
-    location: "",
+    school: "",
+    degree: "",
+    fieldofstudy: "",
     from: "",
     to: "",
     current: false,
     description: "",
   });
   const [errors, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const { company, title, location, from, to, current, description } = formData;
+  const { degree, school, fieldofstudy, from, to, current, description } =
+    formData;
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    dispatch(addExperience(formData));
+    dispatch(addEducation(formData));
   };
   useEffect(() => {
     if (success) {
       setTimeout(function () {
         dispatch({
-          type: ADD_EXPERIENCE_RESET,
+          type: ADD_EDUCATION_RESET,
         });
         history.push("/dashboard");
       }, 3000);
@@ -43,7 +41,7 @@ const AddExperience = ({ history }) => {
     if (error) {
       setError(error);
     }
-  }, [error, loading]);
+  }, [error, loading, success]);
   // const notify = () => toast.success("Created Successfully");
   return (
     <div className="add-experience">
@@ -52,59 +50,59 @@ const AddExperience = ({ history }) => {
         <Toaster />
         <Row>
           <Col md={8} className="m-auto">
-            <h1 className="large text-primary mt-5">Add An Experience</h1>
+            <h1 className="large text-primary mt-5">Add An Education</h1>
             <p className="lead">
               <i className="fas fa-code-branch" /> Add any developer/programming
               positions that you have had in the past
             </p>
             <small>* = required field</small>
             <Form onSubmit={onSubmit}>
-              <Form.Group className="mt-2" controlId="company">
-                <Form.Label>Job Title</Form.Label>
+              <Form.Group className="mt-2" controlId="school">
+                <Form.Label>School</Form.Label>
                 <Form.Control
                   className={classnames("form-control form-control-lg", {
-                    "is-invalid": errors.title,
+                    "is-invalid": errors.school,
                   })}
                   type="text"
-                  placeholder="* Job Title"
-                  name="title"
-                  value={title}
+                  placeholder="* School"
+                  name="school"
+                  value={school}
                   onChange={onChange}
                 ></Form.Control>
-                {errors.title && (
-                  <div className="invalid-feedback">{errors.title}</div>
+                {errors.school && (
+                  <div className="invalid-feedback">{errors.school}</div>
                 )}
               </Form.Group>
-              <Form.Group className="mt-2" controlId="company">
-                <Form.Label>Company</Form.Label>
+              <Form.Group className="mt-2" controlId="degree">
+                <Form.Label>Degree</Form.Label>
                 <Form.Control
                   className={classnames("form-control form-control-lg", {
-                    "is-invalid": errors.company,
+                    "is-invalid": errors.degree,
                   })}
                   type="text"
-                  placeholder="* Company"
-                  name="company"
-                  value={company}
+                  placeholder="* Degree"
+                  name="degree"
+                  value={degree}
                   onChange={onChange}
                 ></Form.Control>
-                {errors.company && (
-                  <div className="invalid-feedback">{errors.company}</div>
+                {errors.degree && (
+                  <div className="invalid-feedback">{errors.degree}</div>
                 )}
               </Form.Group>
-              <Form.Group className="mt-2" controlId="company">
-                <Form.Label>Location</Form.Label>
+              <Form.Group className="mt-2" controlId="fieldofstudy">
+                <Form.Label>Field of Study</Form.Label>
                 <Form.Control
                   className={classnames("form-control form-control-lg", {
-                    "is-invalid": errors.location,
+                    "is-invalid": errors.fieldofstudy,
                   })}
                   type="text"
-                  placeholder="Location"
-                  name="location"
-                  value={location}
+                  placeholder="* Field of Study"
+                  name="fieldofstudy"
+                  value={fieldofstudy}
                   onChange={onChange}
                 ></Form.Control>
-                {errors.location && (
-                  <div className="invalid-feedback">{errors.location}</div>
+                {errors.fieldofstudy && (
+                  <div className="invalid-feedback">{errors.fieldofstudy}</div>
                 )}
               </Form.Group>
               <Form.Group className="mt-2" controlId="company">
@@ -149,13 +147,14 @@ const AddExperience = ({ history }) => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group className="mt-2" controlId="company">
-                <Form.Label>Job Description</Form.Label>
+                <Form.Label>Education Description</Form.Label>
                 <Form.Control
                   className={classnames("form-control form-control-lg", {
                     "is-invalid": errors.description,
                   })}
-                  type="text"
-                  placeholder="Job Description"
+                  as="textarea"
+                  type="textarea"
+                  placeholder="Education Description"
                   name="description"
                   value={description}
                   onChange={onChange}
@@ -180,4 +179,4 @@ const AddExperience = ({ history }) => {
   );
 };
 
-export default AddExperience;
+export default AddEducation;

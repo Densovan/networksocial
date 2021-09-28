@@ -17,8 +17,8 @@ const {
 } = require("../controllers/profile");
 router.route("/me").get(protect, currentUser);
 router.route("/createuser").post(protect, createProfile);
-router.route("/handle/:handle").post(handle_profile);
-router.route("/user/:user_id").post(user_id);
+router.route("/handle/:handle").get(handle_profile);
+router.route("/user/:user_id").get(user_id);
 router.route("/all").get(all_profile);
 router.route("/experience").post(protect, add_experience);
 router.route("/education").post(protect, add_education);

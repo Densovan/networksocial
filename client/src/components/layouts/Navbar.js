@@ -2,17 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-  Badge,
-} from "react-bootstrap";
+
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 const Header = () => {
   const User = useSelector((state) => state.loginUser);
