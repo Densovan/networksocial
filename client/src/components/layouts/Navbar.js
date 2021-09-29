@@ -22,7 +22,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#features">Developer</Nav.Link>
+            <Nav.Link href="/profiles">Developers</Nav.Link>
             {/* <Nav.Link href="#pricing">Pricing</Nav.Link> */}
             {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -40,21 +40,45 @@ const Header = () => {
             {user ? (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <div className="nav-link">
+                  <Link className="nav-link" to="/feed">
+                    Post Feed
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a href="" onClick={onLogoutClick} className="nav-link">
                     <img
                       className="rounded-circle"
                       src={user.avatar}
                       alt={user.name}
                       style={{ width: "25px", marginRight: "5px" }}
                       title="You must have a Gravatar connected to your email to display an image"
-                    />
-                    <span onClick={onLogoutClick} className="ms-2">
-                      Logout
-                    </span>
-                  </div>
+                    />{" "}
+                    Logout
+                  </a>
                 </li>
               </ul>
             ) : (
+              // <ul className="navbar-nav ml-auto">
+              //   <li className="nav-item">
+              //     <div className="nav-link">
+              //       <img
+              //         className="rounded-circle"
+              //         src={user.avatar}
+              //         alt={user.name}
+              //         style={{ width: "25px", marginRight: "5px" }}
+              //         title="You must have a Gravatar connected to your email to display an image"
+              //       />
+              //       <span onClick={onLogoutClick} className="ms-2">
+              //         Logout
+              //       </span>
+              //     </div>
+              //   </li>
+              // </ul>
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link className="nav-link" to="/register">

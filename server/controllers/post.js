@@ -16,11 +16,13 @@ exports.create_post = async (req, res) => {
       //if any errors, send 400 with errors objects
       return res.status(400).json(errors);
     }
-    const { text, name, avatar } = req.body;
+    const { text, name, avatar, thumnail, title } = req.body;
     const newPost = new Post({
       text,
       name,
       avatar,
+      thumnail,
+      title,
       user: req.user.id,
     });
     await newPost.save();
@@ -54,6 +56,34 @@ exports.get_post = async (req, res) => {
       await res.status(200).json(post);
     } else {
       res.status(404).json({ msg: "Post not found" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send(" Server Error");
+  }
+};
+
+//@route PUT/api/post/:id
+//@desc edit Post
+//@access Private
+exports.edit_post = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    if (profile) {
+      const { text, name, avatar, thumnail, title } = req.body;
+      const post = await Post.findById(req.params.id);
+      //check post
+      if (post) {
+        const updatedPost = {
+          text,
+          name,
+          avatar,
+          thumnail,
+          title,
+        };
+        await Post.findByIdAndUpdate({ _id: req.params.id }, updatedPost);
+        res.status(200).json(updatedPost);
+      }
     }
   } catch (error) {
     console.log(error.message);

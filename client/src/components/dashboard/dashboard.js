@@ -40,13 +40,13 @@ const Profile = ({ history }) => {
   } else {
     // Check if logged in user has profile data
     if (profile && loading === false) {
-      console.log(profile.experience);
+      console.log(profile);
       dashboardContent = (
         <div>
           <p className="lead text-muted">
-            Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            Welcome <Link to={`/profile/${profile.user._id}`}>{user.name}</Link>
           </p>
-          <p>{profile.handle}</p>
+          {/* <p>{profile.handle}</p> */}
 
           <ProfileAction />
           <Experience experience={profile.experience} />

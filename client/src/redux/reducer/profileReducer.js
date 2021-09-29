@@ -203,12 +203,12 @@ export const getProfileUserReducer = (state = { profile: {} }, action) => {
     case GET_PROFILE_USER_REQUEST:
       return {
         loading: true,
-        ...state,
+        // ...state,
       };
     case GET_PROFILE_USER_SUCCESS:
       return {
         loading: false,
-        profiles: action.payload,
+        profile: action.payload,
       };
     case GET_PROFILE_USER_FAIL:
       return {

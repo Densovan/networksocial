@@ -12,6 +12,10 @@ import {
   getAllProfileUserReducer,
   getProfileUserReducer,
 } from "./redux/reducer/profileReducer";
+import {
+  createPostReducer,
+  getPostsReducer,
+} from "./redux/reducer/postReducer";
 const reducer = combineReducers({
   register: registerReducer,
   loginUser: loginReducer,
@@ -23,6 +27,8 @@ const reducer = combineReducers({
   deleteEducation: educationDeleteReducer,
   allProfileUser: getAllProfileUserReducer,
   profileUser: getProfileUserReducer,
+  createPost: createPostReducer,
+  getPosts: getPostsReducer,
 });
 
 const tokenFromLocalstorage = localStorage.getItem("userToken")

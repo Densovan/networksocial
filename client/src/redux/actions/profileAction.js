@@ -129,7 +129,7 @@ export const createProfile = (newProfile) => async (dispatch, getState) => {
       type: PROFILE_CREATE_SUCCESS,
       payload: data,
     });
-    // window.location.replace("/dashboard");
+
     dispatch({
       type: PROFILE_CREATE_RESET,
       payload: {},

@@ -18,6 +18,7 @@ import EditProfile from "./components/dashboard/editProfile";
 import AddExperience from "./components/dashboard/addCredentails/addExperience";
 import AddEducation from "./components/dashboard/addCredentails/addEducation";
 import Profiles from "./components/profiles/profiles";
+import Posts from "./components/posts/posts";
 
 //Check for token
 if (localStorage.userToken) {
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/profiles" component={Profiles} />
           <Route exact path="/profile/:id" component={Profile} />
+
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>
@@ -78,6 +80,9 @@ function App() {
               path="/add-education"
               component={AddEducation}
             />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/feed" component={Posts} />
           </Switch>
         </div>
         <Footer />

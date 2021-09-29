@@ -4,11 +4,11 @@ img {
 
 .landing {
   position: relative;
-  background-image: url("./img/background.jpg") no-repeat;
+  background: url("./img/showcase.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
-  margin-top: -24px;
+  /* margin-top: -10px; */
   margin-bottom: -50px;
 }
 
