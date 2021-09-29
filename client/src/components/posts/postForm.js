@@ -32,8 +32,8 @@ const PostForm = ({ history, match }) => {
     e.preventDefault();
     const newPost = {
       text: text,
-      name: "",
-      avatar: "",
+      name: "test",
+      avatar: "tset",
       thumnail: thumnail,
       title: title,
     };
