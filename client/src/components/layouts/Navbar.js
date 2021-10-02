@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="/dashboard">DevConnector</Navbar.Brand>
+        <Navbar.Brand href="/feed">DevConnector</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
@@ -39,10 +39,20 @@ const Header = () => {
           <Nav>
             {user ? (
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/feed">
                     Post Feed
                   </Link>
+                </li> */}
+                {/* <li>
+                  <i class="fas fa-sign-out-alt"></i>
+                </li> */}
+                <li className="nav-item FiPlus">
+                  <a href="" className="nav-link">
+                    <li>
+                      <i className="fas fa-plus"></i>
+                    </li>
+                  </a>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard">
@@ -58,7 +68,10 @@ const Header = () => {
                       style={{ width: "25px", marginRight: "5px" }}
                       title="You must have a Gravatar connected to your email to display an image"
                     />{" "}
-                    Logout
+                    <i
+                      style={{ fontSize: "20px", alignItems: "center" }}
+                      className="fas fa-sign-out-alt"
+                    ></i>
                   </a>
                 </li>
               </ul>

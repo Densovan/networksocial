@@ -1,21 +1,30 @@
-import {
-  //========>Create Post <=======
-  CREATE_POST_FAIL,
-  CREATE_POST_REQUEST,
-  CREATE_POST_RESET,
-  CREATE_POST_SUCCESS,
-  //=========> GET post<===========
-  GET_POST_FAIL,
-  GET_POST_REQUEST,
-  GET_POST_SUCCESS,
-} from "../constants/postConstans";
 import axios from "axios";
-//=============>Create post <==================
-export const createPost = (postData) => async (dispatch, getState) => {
+import {
+  ADD_POST,
+  GET_POST,
+  GET_POSTS,
+  POST_ERROR,
+} from "../constants/postConstans.js";
+
+//=============get post ==============
+export const getPosts = () => async (dispatch) => {
   try {
+    const { data } = await axios.get("/api/post/get_posts");
     dispatch({
-      type: CREATE_POST_REQUEST,
+      type: GET_POSTS,
+      payload: data,
     });
+  } catch (error) {
+    dispatch({
+      type: POST_ERROR,
+      payload: error.response.data,
+    });
+  }
+};
+
+//=============add post==============
+export const addPost = (postData) => async (dispatch, getState) => {
+  try {
     const {
       loginUser: { user },
     } = getState();
@@ -31,34 +40,12 @@ export const createPost = (postData) => async (dispatch, getState) => {
       config
     );
     dispatch({
-      type: CREATE_POST_SUCCESS,
-      payload: data,
-    });
-    dispatch({
-      type: CREATE_POST_RESET,
-      payload: {},
-    });
-  } catch (error) {
-    dispatch({
-      type: CREATE_POST_FAIL,
-      payload: error.response.data,
-    });
-  }
-};
-
-export const getPosts = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: GET_POST_REQUEST,
-    });
-    const { data } = await axios.get("/api/post/get_posts");
-    dispatch({
-      type: GET_POST_SUCCESS,
+      type: ADD_POST,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: GET_POST_FAIL,
+      type: POST_ERROR,
       payload: error.response.data,
     });
   }

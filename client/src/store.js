@@ -12,10 +12,11 @@ import {
   getAllProfileUserReducer,
   getProfileUserReducer,
 } from "./redux/reducer/profileReducer";
-import {
-  createPostReducer,
-  getPostsReducer,
-} from "./redux/reducer/postReducer";
+import { postReducer } from "./redux/reducer/postReducer";
+// import {
+//   createPostReducer,
+//   getPostsReducer,
+// } from "./redux/reducer/postReducer";
 const reducer = combineReducers({
   register: registerReducer,
   loginUser: loginReducer,
@@ -27,8 +28,9 @@ const reducer = combineReducers({
   deleteEducation: educationDeleteReducer,
   allProfileUser: getAllProfileUserReducer,
   profileUser: getProfileUserReducer,
-  createPost: createPostReducer,
-  getPosts: getPostsReducer,
+  post: postReducer,
+  // createPost: createPostReducer,
+  // getPosts: getPostsReducer,
 });
 
 const tokenFromLocalstorage = localStorage.getItem("userToken")
@@ -46,5 +48,11 @@ const store = createStore(
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+
+// let currentState = store.getState()
+// store.subscribe(() => {
+//   let previousState = currentState;
+//   currentState = store.getState()
+// })
 
 export default store;
