@@ -20,6 +20,7 @@ import AddEducation from "./components/dashboard/addCredentails/addEducation";
 import Profiles from "./components/profiles/profiles";
 import Posts from "./components/posts/posts";
 import NewsFeeds from "./components/posts/newsFeeds";
+import Post from "./components/post/post";
 
 //Check for token
 if (localStorage.userToken) {
@@ -84,6 +85,9 @@ function App() {
           </Switch>
           <Switch>
             <PrivateRoute exact path="/feed" component={NewsFeeds} />
+          </Switch>
+          <Switch>
+            <PrivateRoute exact path="/post/:id" component={Post} />
           </Switch>
         </div>
         <Footer />

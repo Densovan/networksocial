@@ -6,7 +6,7 @@ import {
   deleteAccount,
 } from "../../redux/actions/profileAction";
 import { logoutUser } from "../../redux/actions/authAction";
-import Spinner from "../common/Spinner";
+import Loader from "../common/loader";
 import ProfileAction from "./profileAction";
 import Experience from "./experience";
 import { Button } from "react-bootstrap";
@@ -35,8 +35,8 @@ const Profile = ({ history }) => {
 
   let dashboardContent;
 
-  if (profile === null || profile === undefined || loading) {
-    dashboardContent = <Spinner />;
+  if (profile === null || loading) {
+    dashboardContent = <Loader />;
   } else {
     // Check if logged in user has profile data
     if (profile && loading === false) {

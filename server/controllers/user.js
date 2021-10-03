@@ -90,6 +90,7 @@ exports.login = async (req, res) => {
             token: token,
             name: user.name,
             avatar: user.avatar,
+            id: user.id,
           });
         });
       } else {
